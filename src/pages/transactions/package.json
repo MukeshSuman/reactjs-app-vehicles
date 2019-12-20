@@ -1,0 +1,6 @@
+{
+  "name": "Transactions",
+  "version": "0.0.0",
+  "main": "Transactions.js",
+  "private": true
+}
