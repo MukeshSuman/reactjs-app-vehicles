@@ -6,6 +6,9 @@ import axios from "axios";
 
 import { toast } from "react-toastify";
 
+import { errorHandler } from '../../handler';
+
+
 // components
 import PageTitle from "../../components/PageTitle";
 import AddTransaction from "./components/add";
@@ -69,7 +72,7 @@ export default function Transactions() {
         setCopyTransactionList(transactionListArray);
       })
       .catch(error => {
-        setError("something went wrong please try again")
+        setError(errorHandler(error))
         setIsLoading(false)
         console.log(`😱 Axios request failed: ${error}`);
       });
@@ -90,7 +93,8 @@ export default function Transactions() {
         }
       })
       .catch(error => {
-        toastError(error);
+        setInProgress(false)
+        errorHandler(error)
         console.log(`😱 Axios request failed: ${error}`);
       });
   };
@@ -110,12 +114,14 @@ export default function Transactions() {
         }
       })
       .catch(error => {
+        setInProgress(false)
+        errorHandler(error)
         console.log(`😱 Axios request failed: ${error}`);
-        toastError(error);
       });
   };
 
   const deleteTransaction = _id => {
+    setInProgress(true)
     axios
       .delete(API_DELETE_TRANSACTION + "/" + _id, {
         headers: headers,
@@ -129,15 +135,10 @@ export default function Transactions() {
         }
       })
       .catch(error => {
-        toastError(error);
+        setInProgress(false)
+        errorHandler(error)
         console.log(`😱 Axios request failed: ${error}`);
       });
-  };
-
-  const toastError = message => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_LEFT,
-    });
   };
 
   const toastSuccess = message => {

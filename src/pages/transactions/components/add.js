@@ -81,21 +81,21 @@ export default function AddTransaction(props) {
     const categoryForCredited = ["Daily", "Deposited", "Advance"];
     if (key === "Type") {
       const tempArr = ["Debited", "Credited"];
-      menuItem = tempArr.map(item => <MenuItem value={item}>{item}</MenuItem>);
+      menuItem = tempArr.map((item, index) => <MenuItem key={index} value={item}>{item}</MenuItem>);
     }
     if (key === "Category") {
       if (type === "Debited") {
-        menuItem = categoryForDebited.map(item => (
-          <MenuItem value={item}>{item}</MenuItem>
+        menuItem = categoryForDebited.map((item, index) => (
+          <MenuItem key={index} value={item}>{item}</MenuItem>
         ));
       } else if (type === "Credited") {
-        menuItem = categoryForCredited.map(item => (
-          <MenuItem value={item}>{item}</MenuItem>
+        menuItem = categoryForCredited.map((item, index) => (
+          <MenuItem key={index} value={item}>{item}</MenuItem>
         ));
       } else {
         const tempArr = [...categoryForCredited, ...categoryForDebited];
-        menuItem = tempArr.map(item => (
-          <MenuItem value={item}>{item}</MenuItem>
+        menuItem = tempArr.map((item, index) => (
+          <MenuItem key={index} value={item}>{item}</MenuItem>
         ));
       }
     }

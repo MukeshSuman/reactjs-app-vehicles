@@ -1,6 +1,6 @@
 import React from "react";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
-
+import { ToastContainer } from "react-toastify";
 
 // components
 import Layout from "./Layout";
@@ -17,19 +17,26 @@ export default function App() {
   var { isAuthenticated } = useUserState();
 
   return (
-    <HashRouter>
-      <Switch>
-        <Route exact path="/" render={() => <Redirect to="/app/dashboard" />} />
-        <Route
-          exact
-          path="/app"
-          render={() => <Redirect to="/app/dashboard" />}
-        />
-        <PrivateRoute path="/app" component={Layout} />
-        <PublicRoute path="/login" component={Login} />
-        <Route component={Error} />
-      </Switch>
-    </HashRouter>
+    <div>
+      <ToastContainer autoClose={5000}/>
+      <HashRouter>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() => <Redirect to="/app/dashboard" />}
+          />
+          <Route
+            exact
+            path="/app"
+            render={() => <Redirect to="/app/dashboard" />}
+          />
+          <PrivateRoute path="/app" component={Layout} />
+          <PublicRoute path="/login" component={Login} />
+          <Route component={Error} />
+        </Switch>
+      </HashRouter>
+    </div>
   );
 
   // #######################################################################

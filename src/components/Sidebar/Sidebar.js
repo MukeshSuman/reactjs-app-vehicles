@@ -10,6 +10,9 @@ import {
   // LibraryBooks as LibraryIcon,
   // HelpOutline as FAQIcon,
   ArrowBack as ArrowBackIcon,
+  LocalGasStation as LocalGasStationIcon,
+  Build as BuildIcon,
+  Money as MoneyIcon
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
@@ -32,9 +35,9 @@ import {
 const structure = [
   { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
   { id: 1, label: "Works", link: "/app/works", icon: <TableIcon /> },
-  { id: 2, label: "Fuels", link: "/app/fuels", icon: <TableIcon /> },
-  { id: 3, label: "Maintenances", link: "/app/maintenances", icon: <TableIcon /> },
-  { id: 4, label: "Transactions", link: "/app/transactions", icon: <TableIcon /> },
+  { id: 2, label: "Fuels", link: "/app/fuels", icon: <LocalGasStationIcon /> },
+  { id: 3, label: "Maintenances", link: "/app/maintenances", icon: <BuildIcon /> },
+  { id: 4, label: "Transactions", link: "/app/transactions", icon: <MoneyIcon /> },
 
 
   

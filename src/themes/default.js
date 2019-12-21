@@ -8,6 +8,10 @@ const info = "#9013FE";
 const completed = "#28A745";
 const danger = "#DC3545"
 
+const interchange = "#3BE9D4"
+const na = "#3B55E9"
+const cash = "#D13BE9"
+
 const lightenRate = 7.5;
 const darkenRate = 15;
 
@@ -28,6 +32,33 @@ export default {
         .lighten(lightenRate)
         .toHexString(),
       dark: tinycolor(completed)
+        .darken(darkenRate)
+        .toHexString(),
+    },
+    interchange: {
+      main: interchange,
+      light: tinycolor(interchange)
+        .lighten(lightenRate)
+        .toHexString(),
+      dark: tinycolor(interchange)
+        .darken(darkenRate)
+        .toHexString(),
+    },
+    na: {
+      main: na,
+      light: tinycolor(na)
+        .lighten(lightenRate)
+        .toHexString(),
+      dark: tinycolor(na)
+        .darken(darkenRate)
+        .toHexString(),
+    },
+    cash: {
+      main: cash,
+      light: tinycolor(cash)
+        .lighten(lightenRate)
+        .toHexString(),
+      dark: tinycolor(cash)
         .darken(darkenRate)
         .toHexString(),
     },

@@ -201,7 +201,8 @@ export default function TransactionListTable(props) {
                   variant="contained"
                   style={{ margin: 5 }}
                 >
-                  {"Debited " + getAmount(props.data, "amount", "Debited", null)}
+                  {"Debited " +
+                    getAmount(props.data, "amount", "Debited", null)}
                 </ChipButton>
                 <ChipButton
                   color={"success"}
@@ -210,7 +211,36 @@ export default function TransactionListTable(props) {
                   variant="contained"
                   style={{ margin: 5 }}
                 >
-                  {"Credited " + getAmount(props.data, "amount", "Credited", null)}
+                  {"Credited " +
+                    getAmount(props.data, "amount", "Credited", null)}
+                </ChipButton>
+                <ChipButton
+                  color={"interchange"}
+                  size="small"
+                  className="px-2"
+                  variant="contained"
+                  style={{ margin: 5 }}
+                >
+                  {"Interchange " +
+                    getAmount(props.data, "amount", "Interchange", null)}
+                </ChipButton>
+                <ChipButton
+                  color={"na"}
+                  size="small"
+                  className="px-2"
+                  variant="contained"
+                  style={{ margin: 5 }}
+                >
+                  {"Na " + getAmount(props.data, "amount", "NA", null)}
+                </ChipButton>
+                <ChipButton
+                  color={"cash"}
+                  size="small"
+                  className="px-2"
+                  variant="contained"
+                  style={{ margin: 5 }}
+                >
+                  {"Work " + getAmount(props.data, "amount", "Credited", "Work")}
                 </ChipButton>
                 <ChipButton
                   color={"completed"}

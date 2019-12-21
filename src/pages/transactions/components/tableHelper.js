@@ -16,7 +16,7 @@ import {
   SaveAlt,
   Search,
   ViewColumn,
-  VisibilityOutlined
+  VisibilityOutlined,
 } from "@material-ui/icons";
 
 import { Button } from "../../../components/Wrappers";
@@ -24,8 +24,9 @@ import { Button } from "../../../components/Wrappers";
 const states = {
   credited: "success",
   debited: "secondary",
+  interchange: "interchange",
+  na: "na",
 };
-
 
 export const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),

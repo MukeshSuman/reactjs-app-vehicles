@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { format } from "date-fns";
 import axios from "axios";
-
+import { errorHandler } from '../../handler'
 
 import { toast } from "react-toastify";
 
@@ -25,12 +25,12 @@ const workInitData = {
   mobile: "",
   place: "",
   workType: "",
-  unit: "",
+  unit: 0,
   unitType: "",
-  labourCharge: "",
-  amount: "",
-  paid: "",
-  unpaid: "",
+  labourCharge: 0,
+  amount: 0,
+  paid: 0,
+  unpaid: 0,
   paymentType: "",
   status: "",
   description: "",
@@ -39,7 +39,6 @@ const workInitData = {
 export default function Works() {
   // local
   var [isLoading, setIsLoading] = useState(true);
-  // var [isOpen, setIsOpen] = useState(false);
   var [error, setError] = useState(null);
   var [open, setOpen] = React.useState(false);
   var [workList, setWorkList] = React.useState([]);
@@ -77,8 +76,8 @@ export default function Works() {
         setCopyWorkList(workListArray);
       })
       .catch(error => {
-        setError("something went wrong please try again")
-        setIsLoading(false)
+        setError(errorHandler(error))
+        setIsLoading(false);
         console.log(`😱 Axios request failed: ${error}`);
       });
   };
@@ -98,7 +97,8 @@ export default function Works() {
         }
       })
       .catch(error => {
-        toastError(error);
+        errorHandler(error);
+        setInProgress(false);
         console.log(`😱 Axios request failed: ${error}`);
       });
   };
@@ -118,12 +118,14 @@ export default function Works() {
         }
       })
       .catch(error => {
+        errorHandler(error);
+        setInProgress(false);
         console.log(`😱 Axios request failed: ${error}`);
-        toastError(error);
       });
   };
 
   const deleteWork = _id => {
+    setInProgress(true);
     axios
       .delete(API_DELETE_WORK + "/" + _id, {
         headers: headers,
@@ -137,15 +139,10 @@ export default function Works() {
         }
       })
       .catch(error => {
-        toastError(error);
+        errorHandler(error);
+        setInProgress(false);
         console.log(`😱 Axios request failed: ${error}`);
       });
-  };
-
-  const toastError = message => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_LEFT,
-    });
   };
 
   const toastSuccess = message => {

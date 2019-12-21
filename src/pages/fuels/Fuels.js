@@ -5,6 +5,8 @@ import axios from "axios";
 
 import { toast } from "react-toastify";
 
+import { errorHandler } from '../../handler'
+
 // components
 import PageTitle from "../../components/PageTitle";
 import AddFuel from "./components/add";
@@ -69,7 +71,7 @@ export default function Fuels() {
         setCopyFuelList(fuelListArray);
       })
       .catch(error => {
-        setError("something went wrong please try again")
+        setError(errorHandler(error))
         setIsLoading(false)
         console.log(`😱 Axios request failed: ${error}`);
       });
@@ -90,7 +92,8 @@ export default function Fuels() {
         }
       })
       .catch(error => {
-        toastError(error);
+        setInProgress(false)
+        errorHandler(error)
         console.log(`😱 Axios request failed: ${error}`);
       });
   };
@@ -110,12 +113,14 @@ export default function Fuels() {
         }
       })
       .catch(error => {
+        setInProgress(false)
+        errorHandler(error)
         console.log(`😱 Axios request failed: ${error}`);
-        toastError(error);
       });
   };
 
   const deleteFuel = _id => {
+    setInProgress(true)
     axios
       .delete(API_DELETE_FUEL + "/" + _id, {
         headers: headers,
@@ -129,15 +134,10 @@ export default function Fuels() {
         }
       })
       .catch(error => {
-        toastError(error);
+        setInProgress(false)
+        errorHandler(error)
         console.log(`😱 Axios request failed: ${error}`);
       });
-  };
-
-  const toastError = message => {
-    toast.error(message, {
-      position: toast.POSITION.TOP_LEFT,
-    });
   };
 
   const toastSuccess = message => {

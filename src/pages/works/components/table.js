@@ -232,18 +232,34 @@ export default function WorkListTable(props) {
                 </ChipButton>
 
                 <ChipButton
-                  color={states["completed"]}
+                  color={"cash"}
                   size="small"
                   className="px-2"
                   variant="contained"
                   style={{ margin: 5 }}
                 >
-                 Amount:  {"Cash " +
-                    getAmount(props.data, "amount", "Cash", null)}
-                  {" Interchange " +
-                    getAmount(props.data, "amount", "Interchange", null)}
-                  {" NA " + getAmount(props.data, "amount", "NA", null)}
+                 {"Cash " + getAmount(props.data, "amount", "Cash", null)}
                 </ChipButton>
+                <ChipButton
+                  color={"interchange"}
+                  size="small"
+                  className="px-2"
+                  variant="contained"
+                  style={{ margin: 5 }}
+                >
+                  {"Interchange " + getAmount(props.data, "amount", "Interchange", null)}
+                </ChipButton>
+
+                <ChipButton
+                  color={"na"}
+                  size="small"
+                  className="px-2"
+                  variant="contained"
+                  style={{ margin: 5 }}
+                >
+                  {"NA " + getAmount(props.data, "amount", "NA", null)}
+                </ChipButton>
+
                 <ChipButton
                   color={"completed"}
                   size="small"

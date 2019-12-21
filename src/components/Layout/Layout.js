@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import classnames from "classnames";
 
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // styles
@@ -48,7 +47,6 @@ function Layout(props) {
         <>
           <Header history={props.history} />
           <Sidebar />
-          <ToastContainer autoClose={5000}/>
           <div
             className={classnames(classes.content, {
               [classes.contentShift]: layoutState.isSidebarOpened,
@@ -64,11 +62,6 @@ function Layout(props) {
               <Route path="/app/maintenances" component={Maintenances} />
               <Route path="/app/transactions" component={Transactions} />
               {/* <Route path="/app/notifications" component={Notifications} /> */}
-              <Route
-                exact
-                path="/app/ui"
-                render={() => <Redirect to="/app/ui/icons" />}
-              />
               {/* <Route path="/app/ui/maps" component={Maps} /> */}
               {/* <Route path="/app/ui/icons" component={Icons} /> */}
               {/* <Route path="/app/ui/charts" component={Charts} /> */}

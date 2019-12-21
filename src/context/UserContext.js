@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import { API_USER_AUTHENTICATE } from "../constants/api";
 
+import { errorHandler } from '../handler'
+
 var UserStateContext = React.createContext();
 var UserDispatchContext = React.createContext();
 
@@ -64,7 +66,7 @@ function loginUser(
   setError(false);
   setIsLoading(true);
   axios
-    .post(API_USER_AUTHENTICATE, { username, password })
+    .post(API_USER_AUTHENTICATE, { username, password }, { errorHandle: false })
     .then(res => res.data)
     .then(data => {
       console.log(data);
@@ -75,6 +77,7 @@ function loginUser(
       history.push("/app/dashboard");
     })
     .catch(error => {
+      errorHandler(error)
       dispatch({ type: "LOGIN_FAILURE" });
       setError(true);
       setIsLoading(false);
