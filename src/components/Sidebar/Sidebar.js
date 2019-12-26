@@ -32,12 +32,31 @@ import {
   toggleSidebar,
 } from "../../context/LayoutContext";
 
+import jwt from "jsonwebtoken";
+
+const SECRET = "SECRETSTRING";
+const user = jwt.decode(localStorage.getItem("token"), SECRET);
+const isSuperAdmin = user && user.adminType === 'superAdmin';
+const getUser = key => {
+  if (!user || !key) return;
+  let value = "";
+  if (key === "name") {
+    value = user.firstName + " " + user.lastName;
+  } else if (user[key]) {
+    value = user[key];
+  } else {
+    value = "";
+  }
+  return value;
+};
+
 const structure = [
-  { id: 0, label: "Dashboard", link: "/app/dashboard", icon: <HomeIcon /> },
-  { id: 1, label: "Works", link: "/app/works", icon: <TableIcon /> },
-  { id: 2, label: "Fuels", link: "/app/fuels", icon: <LocalGasStationIcon /> },
-  { id: 3, label: "Maintenances", link: "/app/maintenances", icon: <BuildIcon /> },
-  { id: 4, label: "Transactions", link: "/app/transactions", icon: <MoneyIcon /> },
+  { id: 0, label: "Dashboard", link: "/app/dashboard", hidden: false, icon: <HomeIcon /> },
+  { id: 1, label: "Works", link: "/app/works", hidden: false, icon: <TableIcon /> },
+  { id: 2, label: "Fuels", link: "/app/fuels", hidden: false, icon: <LocalGasStationIcon /> },
+  { id: 3, label: "Maintenances", link: "/app/maintenances", hidden: false, icon: <BuildIcon /> },
+  { id: 4, label: "Transactions", link: "/app/transactions", hidden: !isSuperAdmin, icon: <MoneyIcon /> },
+  { id: 5, label: "Picklists", link: "/app/picklists", hidden: !isSuperAdmin, icon: <TableIcon /> },
 
 
   
@@ -143,7 +162,7 @@ function Sidebar({ location }) {
         </IconButton>
       </div>
       <List className={classes.sidebarList}>
-        {structure.map(link => (
+        {structure.map(link => !link.hidden && (
           <SidebarLink
             key={link.id}
             location={location}

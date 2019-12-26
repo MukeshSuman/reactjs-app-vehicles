@@ -36,6 +36,23 @@ import {
 } from "../../context/LayoutContext";
 import { useUserDispatch, signOut } from "../../context/UserContext";
 
+import jwt from "jsonwebtoken";
+
+const SECRET = "SECRETSTRING";
+const user = jwt.decode(localStorage.getItem("token"), SECRET);
+const getUser = key => {
+  if (!user || !key) return;
+  let value = "";
+  if (key === "name") {
+    value = user.firstName + " " + user.lastName;
+  } else if (user[key]) {
+    value = user[key];
+  } else {
+    value = "";
+  }
+  return value;
+};
+
 const messages = [
   {
     id: 0,
@@ -137,7 +154,7 @@ export default function Header(props) {
           )}
         </IconButton>
         <Typography variant="h6" weight="medium" className={classes.logotype}>
-          Vihecles
+          {getUser("name")}
         </Typography>
         <div className={classes.grow} />
         <div
@@ -288,15 +305,10 @@ export default function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              John Smith
+              {getUser("name")}
             </Typography>
-            <Typography
-              className={classes.profileMenuLink}
-              component="a"
-              color="primary"
-              href="https://flatlogic.com"
-            >
-              Flalogic.com
+            <Typography className={classes.profileMenuLink} color="primary">
+              {getUser("mobile")}
             </Typography>
           </div>
           <MenuItem

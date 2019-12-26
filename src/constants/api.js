@@ -22,3 +22,8 @@ export const API_ADD_NEW_TRANSACTION = API_URL + '/transactions/create';
 export const API_UPDATE_TRANSACTION = API_URL + '/transactions';
 export const API_DELETE_TRANSACTION = API_URL + '/transactions';
 export const API_GET_ALL_TRANSACTIONS = API_URL + '/transactions';
+
+export const API_ADD_NEW_PICKLIST = API_URL + '/picklists/create';
+export const API_UPDATE_PICKLIST = API_URL + '/picklists';
+export const API_DELETE_PICKLIST = API_URL + '/picklists';
+export const API_GET_ALL_PICKLISTS = API_URL + '/picklists';

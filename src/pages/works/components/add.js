@@ -49,6 +49,7 @@ export default function AddWork(props) {
     handleChange,
     handleDateChange,
     inProgress,
+    picklist,
   } = props;
 
   const {
@@ -86,6 +87,12 @@ export default function AddWork(props) {
     } else {
       handleSubmit();
     }
+  };
+
+  const getPickList = type => {
+    let arr = [];
+    arr = picklist.filter(item => item.isActive && item["type"] === type);
+    return arr;
   };
 
   const toastError = message => {
@@ -163,12 +170,9 @@ export default function AddWork(props) {
               name="workType"
               onChange={handleChange}
             >
-              <MenuItem value="Trolley Soil">Trolley Soil</MenuItem>
-              <MenuItem value="Paddy Thresher">Paddy Thresher</MenuItem>
-              <MenuItem value="Wheat Thresher">Wheat Thresher</MenuItem>
-              <MenuItem value="Cultivator">Cultivator</MenuItem>
-              <MenuItem value="Rotavator">Rotavator</MenuItem>
-              <MenuItem value="Shipping">Shipping</MenuItem>
+              {getPickList("Work Type").map(item => (
+                <MenuItem value={item.value}>{item.displayName}</MenuItem>
+              ))}
             </Select>
           </FormControl>
           <FormControl className={classes.formControl} fullWidth>

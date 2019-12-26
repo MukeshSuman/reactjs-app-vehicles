@@ -2,54 +2,47 @@ import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { format } from "date-fns";
 import axios from "axios";
-import { errorHandler } from '../../handler'
+
 
 import { toast } from "react-toastify";
 
+import { errorHandler } from '../../handler';
+
+
 // components
 import PageTitle from "../../components/PageTitle";
-import AddWork from "./components/add";
-import WorkListTable from "./components/table";
+import AddPicklists from "./components/add";
+import PicklistsListTable from "./components/table";
 import { Button as ChipButton } from "../../components/Wrappers";
 
 import {
-  API_ADD_NEW_WORK,
-  API_GET_ALL_WORKS,
-  API_UPDATE_WORK,
-  API_DELETE_WORK,
+  API_ADD_NEW_PICKLIST,
   API_GET_ALL_PICKLISTS,
+  API_UPDATE_PICKLIST,
+  API_DELETE_PICKLIST,
 } from "../../constants/api";
 
-const workInitData = {
-  date: new Date(),
-  name: "",
-  mobile: "",
-  place: "",
-  workType: "",
-  unit: 0,
-  unitType: "",
-  labourCharge: 0,
-  amount: 0,
-  paid: 0,
-  unpaid: 0,
-  paymentType: "",
-  status: "",
-  description: "",
+const picklistInitData = {
+  displayName: '',
+  value: "",
+  type: "",
+  isActive: true,
+  rate: 0,
+  perentName: "",
 }
 
-export default function Works() {
+export default function Picklists() {
   // local
   var [isLoading, setIsLoading] = useState(true);
+  // var [isOpen, setIsOpen] = useState(false);
   var [error, setError] = useState(null);
   var [open, setOpen] = React.useState(false);
-  var [workList, setWorkList] = React.useState([]);
-  var [copyWorkList, setCopyWorkList] = React.useState([]);
+  var [picklistList, setPicklistsList] = React.useState([]);
+  var [copyPicklistsList, setCopyPicklistsList] = React.useState([]);
   var [dialogTitle, setDialogTitle] = React.useState("");
   var [dialogType, setDialogType] = React.useState("");
-  var [work, setWork] = React.useState(workInitData);
+  var [picklist, setPicklists] = React.useState(picklistInitData);
   var [inProgress, setInProgress] = useState(false);
-
-  var [picklist, setPicklist] = React.useState([]);
 
 
   const headers = {
@@ -60,7 +53,6 @@ export default function Works() {
 
   useEffect(() => {
     getAllPicklists();
-    getAllWork();
   }, []);
 
   const getAllPicklists = () => {
@@ -70,96 +62,82 @@ export default function Works() {
       })
       .then(res => res.data)
       .then(data => {
-        setPicklist(data.data);
-      })
-      .catch(error => {
-        setError(errorHandler(error))
-        console.log(`😱 Axios request failed: ${error}`);
-      });
-  };
-
-  const getAllWork = () => {
-    axios
-      .get(API_GET_ALL_WORKS, {
-        headers: headers,
-      })
-      .then(res => res.data)
-      .then(data => {
         setIsLoading(false);
-        let workListArray = data.data;
-        workListArray = workListArray.map(work => ({
-          ...work,
-          date: format(new Date(work.date), "yyyy-MM-dd"),
+        let picklistListArray = data.data;
+        picklistListArray = picklistListArray.map(picklist => ({
+          ...picklist,
+          createdAt: format(new Date(picklist.createdAt), "yyyy-MM-dd"),
+          updatedAt: format(new Date(picklist.updatedAt), "yyyy-MM-dd"),
         }));
-        setWorkList(workListArray);
-        setCopyWorkList(workListArray);
+        setPicklistsList(picklistListArray);
+        setCopyPicklistsList(picklistListArray);
       })
       .catch(error => {
         setError(errorHandler(error))
-        setIsLoading(false);
+        setIsLoading(false)
         console.log(`😱 Axios request failed: ${error}`);
       });
   };
 
-  const addWork = () => {
+  const addPicklists = () => {
     setInProgress(true);
     axios
-      .post(API_ADD_NEW_WORK, work, {
+      .post(API_ADD_NEW_PICKLIST, picklist, {
         headers: headers,
       })
       .then(res => res.data)
       .then(data => {
-        getAllWork();
+        getAllPicklists();
         if (data.success) {
           handleClose();
           toastSuccess(data.message);
         }
       })
       .catch(error => {
-        errorHandler(error);
-        setInProgress(false);
+        setInProgress(false)
+        errorHandler(error)
         console.log(`😱 Axios request failed: ${error}`);
       });
   };
 
-  const updateWork = () => {
+  const updatePicklists = () => {
     setInProgress(true);
     axios
-      .put(API_UPDATE_WORK + "/" + work._id, work, {
+      .put(API_UPDATE_PICKLIST + "/" + picklist._id, picklist, {
         headers: headers,
       })
       .then(res => res.data)
       .then(data => {
-        getAllWork();
+        getAllPicklists();
         if (data.success) {
           handleClose();
           toastSuccess(data.message);
         }
       })
       .catch(error => {
-        errorHandler(error);
-        setInProgress(false);
+        setInProgress(false)
+        errorHandler(error)
         console.log(`😱 Axios request failed: ${error}`);
       });
   };
 
-  const deleteWork = _id => {
-    setInProgress(true);
+  const deletePicklists = _id => {
+    setInProgress(true)
     axios
-      .delete(API_DELETE_WORK + "/" + _id, {
+      .delete(API_DELETE_PICKLIST + "/" + _id, {
         headers: headers,
       })
       .then(res => res.data)
       .then(data => {
-        getAllWork();
+        getAllPicklists();
         if (data.success) {
           handleClose();
           toastSuccess(data.message);
         }
       })
       .catch(error => {
-        errorHandler(error);
-        setInProgress(false);
+        setInProgress(false)
+        errorHandler(error)
         console.log(`😱 Axios request failed: ${error}`);
       });
   };
@@ -171,57 +149,56 @@ export default function Works() {
   };
 
   const handleClickOpen = () => {
-    setInProgress(false);
-    setDialogTitle("Add New Work");
+    setDialogTitle("Add New Picklists");
     setDialogType("ADD");
     setOpen(true);
   };
 
   const handleClose = () => {
-    setInProgress(false);
     setDialogTitle("");
     setDialogType("");
-    setWork(workInitData);
+    setPicklists(picklistInitData);
+    setInProgress(false);
     setOpen(false);
   };
 
-  const editWork = work => {
-    setInProgress(false);
-    setDialogTitle("Update Work");
+  const editPicklists = picklist => {
+    setDialogTitle("Update Picklists");
     setDialogType("EDIT");
-    setWork(work);
+    setInProgress(false);
+    setPicklists(picklist);
     setOpen(true);
   };
 
-  const handleWorkChange = event => {
+  const handlePicklistsChange = event => {
     const name = event.target.name;
     const value = event.target.value;
-    setWork({
-      ...work,
+    setPicklists({
+      ...picklist,
       [name]: value,
     });
   };
 
-  const handleWorkDateChange = date => {
-    setWork({
-      ...work,
+  const handlePicklistsDateChange = date => {
+    setPicklists({
+      ...picklist,
       date: date,
     });
   };
 
   const handleSubmit = () => {
-    if (work._id) {
-      updateWork();
+    if (picklist._id) {
+      updatePicklists();
     } else {
-      addWork();
+      addPicklists();
     }
   };
 
   return (
     <>
       <PageTitle
-        title="Works"
-        button="Add New Work"
+        title="Picklists"
+        button="Add New Picklists"
         btnClick={handleClickOpen}
       />
       {error && (
@@ -233,27 +210,26 @@ export default function Works() {
           {error}
         </ChipButton>
       )}
-      <AddWork
+      <AddPicklists
         open={open}
         handleClose={handleClose}
         dialogTitle={dialogTitle}
         handleSubmit={handleSubmit}
-        work={work}
-        dialogType={dialogType}
-        handleDateChange={handleWorkDateChange}
-        handleChange={handleWorkChange}
-        inProgress={inProgress}
         picklist={picklist}
+        dialogType={dialogType}
+        handleDateChange={handlePicklistsDateChange}
+        handleChange={handlePicklistsChange}
+        inProgress={inProgress}
       />
       <Grid container spacing={4}>
         <Grid item xs={12}>
-          <WorkListTable
-            workList={workList}
-            editWork={editWork}
-            deleteWork={deleteWork}
+          <PicklistsListTable
+            picklistList={picklistList}
+            editPicklists={editPicklists}
+            deletePicklists={deletePicklists}
             isLoading={isLoading}
-            setWorkList={setWorkList}
-            copyWorkList={copyWorkList}
+            setPicklistsList={setPicklistsList}
+            copyPicklistsList={copyPicklistsList}
           />
         </Grid>
       </Grid>
